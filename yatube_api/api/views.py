@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
 from posts.models import Comment, Group, Post
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from .serializers import CommentSerializer, GroupSerializer, PostSerializer
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import AllowAny
@@ -22,7 +22,7 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
-        return [IsAuthenticatedOrReadOnly(), IsOwnerOrReadOnly()]
+        return [IsAuthenticated(), IsOwnerOrReadOnly()]
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
@@ -46,4 +46,4 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
-        return [IsAuthenticatedOrReadOnly(), IsOwnerOrReadOnly()]
+        return [IsAuthenticated(), IsOwnerOrReadOnly()]
